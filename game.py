@@ -1,4 +1,5 @@
 import random
+import time
 
 def welcome_message() -> None:
 	print("Welcome to the Number Guessing Game!")
