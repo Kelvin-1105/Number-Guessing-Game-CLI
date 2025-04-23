@@ -29,14 +29,23 @@ def randomizer() -> int:
 def game(difficulty: str, target: int) -> None:
 	print(f"\nGreat! You have selected the {difficulty} difficulty level.")
 	print("Let's start the game!")
+	time = check_time()
 
 	chances_dict = {'Easy': 10, 'Medium': 5, 'Hard': 3}
 	for i in range(0, chances_dict[difficulty]):
 		guess = user_guess()
 		if check_guess(target, guess, i+1):
+			time = check_time() - time
+			time = round_time(time)
+			print(f"It took you {time} seconds to guess the answer!")
 			return
 	print("You lose! You ran out of chances.")
 
+def check_time() -> None:
+	return time.time()
+
+def round_time(time: float) -> int:
+	return int(time + 0.5)
 
 def user_guess() -> int:
 	guess = -1
@@ -68,7 +77,7 @@ def play_again() -> bool:
 			return ifAgain == 'y'
 
 def goodbye_message():
-	print("\nThank you for playing! Have a nice day.")
+	print("\nThank you for playing! Have a nice day.\n")
 
 def main(): 
 	welcome_message()
