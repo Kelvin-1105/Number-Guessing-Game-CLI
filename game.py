@@ -23,10 +23,10 @@ def choose_difficulty() -> str:
 		else: 
 			print("Please choose a number 1 through 3.")
 
-def randomizer() -> int:
+def num_randomizer() -> int:
 	return random.randint(1, 100)
 
-def game(difficulty: str, target: int) -> None:
+def game_logic(difficulty: str, target: int) -> None:
 	print(f"\nGreat! You have selected the {difficulty} difficulty level.")
 	print("Let's start the game!")
 	time = check_time()
@@ -34,18 +34,28 @@ def game(difficulty: str, target: int) -> None:
 	chances_dict = {'Easy': 10, 'Medium': 5, 'Hard': 3}
 	for i in range(0, chances_dict[difficulty]):
 		guess = user_guess()
-		if check_guess(target, guess, i+1):
-			time = check_time() - time
-			time = round_time(time)
-			print(f"It took you {time} seconds to guess the answer!")
+		if check_guess(target, guess):
+			winner_message(i+1)
+			time = check_time(time)
+			time_message(time)
 			return
-	print("You lose! You ran out of chances.")
+	loser_message()
 
 def check_time() -> None:
 	return time.time()
 
+def check_time(time: float) -> int:
+	rounded_time = round_time(check_time() - time)
+	return rounded_time
+
 def round_time(time: float) -> int:
 	return int(time + 0.5)
+
+def time_message(rounded_time: int):
+	print(f"It took you {rounded_time} seconds to guess the answer!")
+
+def loser_message() -> None:
+	print("You lose! You ran out of chances.")
 
 def user_guess() -> int:
 	guess = -1
@@ -58,15 +68,17 @@ def user_guess() -> int:
 		else: 
 			return int(guess)
 
-def check_guess(target: int, guess: int, guess_attempt: int) -> bool:
+def check_guess(target: int, guess: int) -> bool:
 	if target > guess:
 		print(f"Incorrect! The number is greater than {guess}.")
 	elif target < guess:
 		print(f"Incorrect! The number is less than {guess}.")
 	else:
-		print(f"Congratulations! You guessed the correct number in {guess_attempt} attempts.")
 		return True
 	return False
+
+def winner_message(guess_attempt: int) -> None:
+	print(f"Congratulations! You guessed the target number in {guess_attempt} attempts.")
 
 def play_again() -> bool:
 	while True:
@@ -83,13 +95,12 @@ def main():
 	welcome_message()
 	while True:
 		difficulty = choose_difficulty()
-		target = randomizer()
+		target = num_randomizer()
 
-		game(difficulty, target)
+		game_logic(difficulty, target)
 		if not play_again():
 			goodbye_message()
 			exit()
-
-
+			
 if __name__ == "__main__":
 	main()
