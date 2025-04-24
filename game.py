@@ -2,7 +2,7 @@ import random
 import time
 
 def welcome_message() -> None:
-	print("Welcome to the Number Guessing Game!")
+	print("\nWelcome to the Number Guessing Game!")
 	print("I'm thinking of a number between 1 and 100.")
 	print("Try to guess the number!")
 
@@ -35,19 +35,14 @@ def game_logic(difficulty: str, target_num: int) -> None:
 
 	chances_dict = {'Easy': 10, 'Medium': 5, 'Hard': 3}
 	for i in range(0, chances_dict[difficulty]):
-		user_guess, hint_num = user_guess(hint_num, target_num)
+		user_guess, hint_num = get_guess(hint_num, target_num)
 		if check_guess(target_num, user_guess, i+1):
-			time = check_time(start_time)
-			time_message(time)
+			time_message(round_time(check_time() - start_time))
 			return
 	loser_message()
 
 def check_time() -> None:
 	return time.time()
-
-def check_time(time: float) -> int:
-	rounded_time = round_time(check_time() - time)
-	return rounded_time
 
 def round_time(time: float) -> int:
 	return int(time + 0.5)
@@ -58,7 +53,7 @@ def time_message(rounded_time: int):
 def loser_message() -> None:
 	print("You lose! You ran out of chances.")
 
-def user_guess(hint_num: int, target_num: int) -> list[int, int]:
+def get_guess(hint_num: int, target_num: int) -> list[int, int]:
 	user_guess = -1
 	while True:
 		user_guess = input("\nEnter your guess: ")
@@ -76,9 +71,9 @@ def hint(hint_num: int, target_num: int) -> None:
 	hint_num += 1
 	if hint_num == 1:
 		parity = "even" if target_num % 2 == 0 else "odd"
-		print(f"\nThe target is {parity}")
+		print(f"The target is {parity}")
 	elif hint_num == 2:
-		print(f"\nThe targets last digit is {target_num % 10}")
+		print(f"The targets last digit is {target_num % 10}")
 	else:
 		print("No more hints..")
 
