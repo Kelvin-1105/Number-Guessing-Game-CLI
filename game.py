@@ -47,7 +47,7 @@ def check_time() -> None:
 def round_time(time: float) -> int:
 	return int(time + 0.5)
 
-def time_message(rounded_time: int):
+def time_message(rounded_time: int) -> None:
 	print(f"It took you {rounded_time} seconds to guess the answer!")
 
 def loser_message() -> None:
